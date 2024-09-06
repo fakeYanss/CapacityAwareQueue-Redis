@@ -1,0 +1,42 @@
+server:
+  port: 8111
+
+logging.has_console_appender: true
+
+logging:
+  level:
+    org:
+      springframework:
+        transaction: DEBUG
+
+spring:
+  redis:
+    host: bjhw-vod-videoworks-tool02.bjhw # 这是我在内部开发环境搭建的redis服务，请尽量使用自建redis测试
+    port: 8379
+    password: vod@dev
+
+scheduler:
+  # 公共队列
+  default-topic: common-queue
+  # vip队列
+  queue-map:
+    vip-user-1: vip-user-1-queue
+    vip-user-2: vip-user-2-queue
+  # 队列最大优先级
+  max-priority: 5
+  # 消费参数
+  consumer:
+    # 自动注册消费者容器
+    auto-register: true
+    # 阻塞pop超时时间
+    poll-timeout: 5
+    # 每批次消费最大拉取消息数
+    max-poll-records: 100
+    # 滑动窗口记录历史次数
+    max-poll-history-window-size: 10
+    # 尝试调整的阈值，比如超过6次都max-out，就会尝试分配更多额度
+    min-poll-window-max-out-threshold: 6
+    # 自定义consumer的类名
+    custom-consumer-name: com.baidu.bce.queue_redis_demo.CustomConsumer
+
+
